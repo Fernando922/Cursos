@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Título da Página</title>
+        <script type="text/javascript">
+            function separaNum(){
+                var i, par,aux1,aux2;
+                var vet = new Array(10);
+                var par = [];
+                var impar = [];
+
+                for(i=0;i<10;i++){
+                    vet[i] = parseInt(prompt("Por favor digite o " + (i+1) + "º número")) ; //obriga a todos os valores serem numeros inteiros
+                }
+                aux1 = 0;
+                aux2 = 0;
+                for (i=0;i<9;i++){
+                    if (vet[i] % 2 == 0){
+                        par[aux1] = vet[i];
+                        aux1++              //a cada valor adicionado no vetor, a variavel auxiliar recebe o valor que será da prox posiçao
+                    }else {
+                        impar[aux2] = vet[i];
+                        aux2++
+                    }
+                }   
+                alert("Dos números digitados " + par + " são pares!" );
+                alert("Dos números digitados " + impar + " são ìmpares!");
+            }
+		</script>
+	</head>
+    <body onload = "separaNum()"></body>   <!-- essa tag obriga a função a ser exibida cada vez que a página for carregada -->
+</html>

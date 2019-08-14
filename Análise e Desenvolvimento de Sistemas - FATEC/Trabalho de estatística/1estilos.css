@@ -1,0 +1,80 @@
+table{
+    width: 400px; position: absolute; left:50%; margin: 0 0 0-200px;
+    border-color: black;
+}
+
+.center {
+      text-align: center;
+}
+
+
+body{
+    background-color: #EFEFF7;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.css_btn_class {
+    font-size:14px;
+    font-family:Arial;
+    font-weight:normal;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    border:1px solid #80808;
+    padding:9px 18px;
+    text-decoration:none;
+    background:-moz-linear-gradient( center top, #4184bf 15%, #e8e8e8 90% );
+    background:-ms-linear-gradient( top, #4184bf 15%, #e8e8e8 90% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4184bf', endColorstr='#e8e8e8');
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(15%, #4184bf), color-stop(90%, #e8e8e8) );
+    background-color:#4184bf;
+    color:#0;
+    display:inline-block;
+}.css_btn_class:hover {
+    background:-moz-linear-gradient( center top, #e8e8e8 15%, #4184bf 90% );
+    background:-ms-linear-gradient( top, #e8e8e8 15%, #4184bf 90% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e8e8e8', endColorstr='#4184bf');
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(15%, #e8e8e8), color-stop(90%, #4184bf) );
+    background-color:#e8e8e8;
+}.css_btn_class:active {
+    position:relative;
+    top:1px;
+}
+
+
+a:link, a:visited, a:active {
+    text-decoration: none;
+    background-color: 
+}
+a:hover {text-decoration: underline;  
+	color:#000; 
+	font-size:150%; 
+}
+
+#centro{
+    position:absolute;
+    
+}
+
+.menu{
+    background-color: #B6AFD6;
+    font-family: Century,Arial, Helvetica
+}
+
+
+label{
+    font-weight: 700;
+}
+
+#radio{
+    border: thick  groove  #868CC2
+}
+
+#bi{
+    border: thick  groove  #D7DCEC
+}
+
+
+#links{
+    background-color: #CAC3E7
+}

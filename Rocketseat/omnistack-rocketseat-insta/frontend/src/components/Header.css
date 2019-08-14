@@ -1,0 +1,20 @@
+header#main-header{
+  background: #fff;
+  height: 72px;
+  border-bottom: 1px solid #ddd
+}
+
+header#main-header .header-content {
+  /* se a largura for menos que 980px, vai ser aplicado 100%, achei desnecessário, só o max-width resolve */
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  height: 72px;
+  padding: 0 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}
+
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Título da Página</title>
+        <script type="text/javascript">
+            var vetor = [];
+            var num = 0;
+            var i = 0;
+            var aux = [];
+            var cont = 0;
+            var media = 0;
+           
+            num = parseInt(prompt("digite um número!"));
+            while (num!=9999) {
+                vetor[i] = num;    // fazendo dessa forma o código fica menor quando vc repete a pergunta dentro do while
+                i++
+                num = parseInt(prompt("digite um número!")); 
+            }
+            alert (vetor);
+            for (i=0 ; i<=vetor.length; i++){
+                if (vetor[i]<0){
+                    aux[cont]=vetor[i];
+                    cont++
+                }
+            }
+            for (i=0; i<aux.length; i++){
+                media += aux[i];
+            }
+            
+            if (media!=""){
+                alert ("Os números negativos da lista são: " + aux);
+                alert ("A média destes números é de: " + media/aux.length);
+            }else{
+                alert("Não houve nenhum número negativo na lista!");
+            }
+
+           
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

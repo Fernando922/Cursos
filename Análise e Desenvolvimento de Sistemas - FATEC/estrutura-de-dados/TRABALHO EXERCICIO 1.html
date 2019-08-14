@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Título da Página</title>
+		<script type="text/javascript">
+			
+            
+            var vetor= new Array();
+            var pilha=[];
+            var string,x,i;
+            x=0;
+			var erro;
+			erro=0;
+
+            string = prompt("Digite aqui");
+            vetor = string.split("");
+            alert(vetor);
+
+
+			for(i = 0;i<vetor.length;i++){
+				if (vetor[i]=="("||vetor[i]=="{"||vetor[i]=="["){
+					pilha.push(vetor[i]);
+					
+				}
+				else if (vetor[i]==")" &&  pilha.pop()=="("||vetor[i]=="}"&& pilha.pop()=="{"||vetor[i]=="]"&& pilha.pop()== "["){
+					
+			}else{
+				erro=1;
+			}			   
+		}      
+
+		if (erro == 1 || pilha.length != 0){
+			alert("Expressao Incorreta");
+		}
+		else{
+			alert("Expressao Validada");
+		}
+		</script>
+	</head>
+	<body>
+		<h1>Cabeçalho da página</h1>
+		<p>Isto é um parágrafo de texto</p>
+	</body>
+</html>

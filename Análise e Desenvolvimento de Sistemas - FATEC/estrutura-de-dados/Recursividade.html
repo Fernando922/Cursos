@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Sistemática</title>
+        <script type="text/javascript">
+            var result;
+            var n;
+
+            function fatorial(num){
+                if (num<0){
+                    return -1;
+                }
+                else if (num == 0){
+                    return 1;
+                }
+                else {
+                    return (num * fatorial(num - 1));
+                }
+            }
+
+            n = prompt("Digite um número para obter o resultado fatorial");
+            var result = fatorial(n);
+            document.write(result);
+
+
+        </script>
+	</head>
+	<body>
+
+	</body>
+</html>
+                                                                                                       

@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Estimação</title>
+		<link rel="stylesheet" type="text/css" href="estilos.css" media="all" />
+	</head>
+	<body class="center">
+		<div id="links">
+			<a href="1home.html">Home</a>
+			<a href="1censo.html">Censo</a>
+			<a href="1ic.html"target="_blank">Intervalo de Confiança</a>
+			<a href="1dbinomial.html"target="_blank">Distribuição Binomial</a>
+			<a href="1dnormal.html"target="_blank">Distribuição Normal</a>
+			<a href="1cor.html"target="_blank">Correlação e Regressão</a>
+		</div>
+		<h1>Análise por Estimação</h1>
+
+
+		<div id="radio">
+			<h3>Selecione o tipo de amostragem</h3>
+			<input type="radio" name="tp"  value="aleatoria"/>
+			<label>Aleatória simples</label>
+			<input type="radio" name="tp" value="estratificada"/>
+			<label>Estratificada proporcional</label>
+			<input type="radio" name="tp" value="sistematica"/>
+			<label>Sistemática</label>
+			<p></p>
+		</div>
+
+		<p></p>
+		<div id ="mg">
+			<label>Digite a margem de erro desejada</label>
+			<input id="margem" type="number" step="any" />
+			<p></p>
+		</div>
+
+		<div id="coleta">
+			<button onclick="coleta()"class="css_btn_class">iniciar Coleta</button>
+			<p></p>
+		</div>
+
+		<div id="halll" style = "display:none" >
+			<label>Insira os dados a serem tratatos</label>
+			<input id="hall" type="text" step="any" />
+			<p></p>
+		</div>
+
+
+		<div id="estt" style = "display:none" >
+			<label>Insira os dados do grupo</label>
+			<input id="est" type="text" step="any" />
+			<h4>Calculo da amostra</h4>
+			<p id="prop" type="text"></p>
+			<button onclick="inserir()"class="css_btn_class">inserir grupo</button>
+		</div>
+		
+
+		<div id="radio">
+			<h3>Selecione o tipo de tabela</h3>
+			<input type="radio" name="op"  value="discreta"/>
+			<label>Discreta</label>
+			<input type="radio" name="op" value="continua"/>
+			<label>Contínua</label>
+			<p></p>
+		</div>
+
+		<div>
+			<p></p>
+			<button onclick="calcular()"class="css_btn_class">Obter análise</button>
+		</div>
+
+		<div id="sMedia" style="display:none">
+			<h4>Média</h4>
+			<p id="rMedia"></p>
+		</div>
+
+		<div id="sModa" style="display:none">
+			<h4>Moda</h4>
+			<p id="rModa"></p>
+		</div>
+
+		<div id="sPearson" style="display:none">
+			<h4>Moda Pearson</h4>
+			<p id="rPearson"></p>
+		</div>
+
+		<div id="sKing" style="display:none">
+			<h4>Moda King</h4>
+			<p id="rKing"></p>
+		</div>
+
+		<div id="sCzuber" style="display:none">
+			<h4>Moda Czuber</h4>
+			<p id="rCzuber"></p>
+		</div>
+
+		<div id="sMediana" style="display:none">
+			<h4>Mediana</h4>
+			<p id="rMediana"></p>
+		</div>
+
+		<div id="sDesvio" style="display:none">
+			<h4>Desvio Padrão</h4>
+			<p id="rDesvio"></p>
+		</div>
+
+		<div id="sVariacao" style="display:none">
+			<h4>Coeficiente de Variância</h4>
+			<p id="rVariacao"></p>
+		</div>
+
+		<div id="sTd" style = "display:none">
+			<h4>Tabela Discreta</h4>
+        	<table id="TabelaDis" border="1">
+				<tr>
+					<td>
+						Xi
+					</td>
+					<td>
+						Fi
+					</td>
+					<td>
+						FR%
+					</td>
+					<td>
+						F
+					</td>
+					<td>
+						F%
+					</td>
+				</tr>
+			</table>
+		</div>
+
+
+		<div id="sTc" style = "display:none">
+			<h4>Tabela Contínua</h4>
+        	<table id="tabelaCon" border="1">
+				<tr>
+					<td>
+						Classes
+					</td>
+					<td>
+						De
+					</td>
+					<td>
+						Até
+					</td>
+					<td>
+						Fi
+					</td>
+					<td>
+						FR%
+					</td>
+					<td>
+						F
+					</td>
+					<td>
+						F%
+					</td>
+				</tr>
+			</table>
+		</div>
+			
+	</body>
+</html>
+
+
+<script type="text/javascript">
+	
+	var i = 0;
+	var cont,a,opc,opc2,qtd,rsp,r1,r2,r3,radio1;
+    var vet1 =[];
+    var vet2 =[];
+    var vet3 =[];
+    var vet4 =[];
+    var vet5 =[];
+    var vet6 =[];
+    var vet7 = [];
+    var vet8 = [];
+	var vet9 = [];
+    var vetSim =[];
+	var aux4 =0;
+	var aux3;
+    var aux2 = 0;
+    var aux = 0;
+    var prov = [];
+	var salva = "";
+	var virgula;
+	var aj;
+
+
+	//serve para ocultar qualquer campo do html.
+	function show(div){
+		display = document.getElementById(div).style.display;
+		if(display == "none"){
+            document.getElementById(div).style.display = 'block';
+        }else{
+            document.getElementById(div).style.display = 'none';
+    	}
+	}
+
+	function receber(){
+        salva = document.getElementById("hall").value; //aqui é feita a entrada dos dados a serem pesquisados
+		vet1 = salva.split(",");
+		parseFloat(vet1);
+
+    }
+
+	//função para limpar o vetor já que preciso usar ele de novo!
+	function limpaVetor(vetor){
+        var k = 0;
+        while (vetor.length != ""){
+        vetor.splice(0,k);       
+        k++
+        }
+    }
+
+	function entradaDados(id){
+        salva += document.getElementById(id).value; //aqui é feita a entrada dos dados a serem pesquisados
+		if (salva!=""){
+			salva+=",";
+		}
+		prov = salva.split(",");
+		parseFloat(prov);
+
+    }
+
+	function inserir(){
+		entradaDados("est");
+			aux3 = parseInt(document.getElementById("prop").innerHTML);
+			aux4+=aux3;
+			for (i=0;i<aux4+1;i++){
+				aj = prov.pop();
+			}
+			limpaVetor(vet1);
+			for(a=0;a<prov.length;a++){
+                vet1.push(prov[a]);   //ja acumula tudo no vet1, o valor de todos os grupos!
+            }
+			limpaVetor(prov);
+			alert("Insira o próximo grupo se houver ou prossiga")	
+	}
+
+	
+    function organizar(dados){
+    //a função abaixo é pra ordenar os dados do vetor, seja números ou por ordem alfabética mesmo
+        if (!isNaN(dados[0]) === true){
+            function organizar(a,b){
+            	return (a-b) // esta função serve para ordenar apenas para ordenar números
+            }
+            dados.sort(organizar);
+        }else if (!isNaN(dados[0]) === false){
+            dados.sort();   // aqui a função pra organizar por ordem alfabética já é mais simples
+        }
+    }
+
+    function separar(a){
+    // separar o total de dados em um vetor sem repetição e outro com os valores repetidos na sequencia
+        aux2 = 0;
+        aux = 0;
+        vet2[0] = a[0];  //como o teste da certo pulando a primeira vez entao tenho que atribuir antes do 'for'
+        vet3[0] = 1;
+		//este for serve para atribuir em um vetor todos os dados sem as repetições                       
+        for (i=1;i<a.length;i++){
+            if(a[i] != vet2[aux]){
+            	aux++;
+            	vet2[aux] = a[i];   //ao mesmo tempo cria o vet3 que recebe a quantidade de repetições na sequencia.
+            	aux2++;
+            	vet3[aux2] = 1;
+            }else  if (a[i] == vet2[aux]){
+                vet3[aux2]++   // aqui o vetor de repetição é alimentado
+            }
+        }
+		parseInt(vet2);
+		parseInt(vet3);
+    }
+
+
+	
+
+	//serve para ocultar qualquer campo do html.
+	function show(div){
+		display = document.getElementById(div).style.display;
+		if(display == "none"){
+            document.getElementById(div).style.display = 'block';
+        }else{
+            document.getElementById(div).style.display = 'none';
+    	}
+	}
+
+
+	function coleta(){
+		show("coleta");
+		show("mg");
+		radio1 = document.getElementsByName("tp");
+    	for (var i = 0; i < radio1.length; i++) {
+        	if (radio1[i].checked) {
+            	opc2 =  radio1[i].value;
+			}
+    	}
+
+
+		if (opc2 == "aleatoria" ||  opc2 == "sistematica"){
+			show("halll");
+
+		}else if (opc2 == "estratificada"){
+			show("estt");
+
+			qtd = parseInt(prompt ("Digite o valor total dos dados a serem pesquisados"));
+			//definindo o valor da amostra 
+			var marg = parseFloat(document.getElementById("margem").value);
+        	var erro = (1/(marg*marg))*10000; 
+        	aux = parseInt(erro)+parseInt(qtd); //tem que somar separado os valores, senão o programa concatena como se fosse string
+        	var amo = (qtd*erro)/aux //aqui foi definido o valor a ser retirado da amostra
+            //var qgp = prompt("Quantos grupos serão pesquisados?");
+            //var tgp = [];  //vetor para inserir quantidade de cada grupo
+            var prop = Math.round(amo/qtd); // calculo da porcentagem proporcional
+            //var ext = []; //vetor para acumular o valor de cada extrato
+
+
+			var vProp = document.getElementById("prop");
+			vProp.innerHTML = prop;
+			
+
+
+
+            
+		}
+	}
+
+	///////////////////////////////////////////////////inicio////////////////////////////////////////////////////////////////////
+
+
+	function calcular(){
+        
+
+		radio1 = document.getElementsByName("tp");
+    	for (var i = 0; i < radio1.length; i++) {
+        	if (radio1[i].checked) {
+            	opc2 =  radio1[i].value;
+			}
+    	}
+
+		if (opc2 == "aleatoria"){
+            receber();
+			qtd = vet1.length;
+
+			//definindo o valor da amostra 
+			var marg = parseFloat(document.getElementById("margem").value);
+        	var erro = (1/(marg*marg))*10000; 
+        	aux = parseInt(erro)+parseInt(qtd); //tem que somar separado os valores, senão o programa concatena como se fosse string
+        	var amo = (qtd*erro)/aux //aqui foi definido o valor a ser retirado da amostra
+ 			for (i=0;i<amo;i++){
+                vetSim[i] = vet1[i];    // vai sortear sempre a partir dos primeiros da lista ate chegar no valor da amostra!
+            }
+			limpaVetor(vet1);
+
+			for (i=0;i<vetSim.length;i++){
+                vet1[i] = vetSim[i];           //os dados brutos a partir de agora são apenas os sorteados
+            }
+            organizar(vet1);
+            separar(vet1);			
+			qtd = vet1.length; ///importantíssimo!
+		}
+
+		if (opc2 == "sistematica"){
+			receber();
+			qtd = vet1.length;
+
+			//definindo o valor da amostra 
+			var marg = parseFloat(document.getElementById("margem").value);
+        	var erro = (1/(marg*marg))*10000; 
+        	aux = parseInt(erro)+parseInt(qtd); //tem que somar separado os valores, senão o programa concatena como se fosse string
+        	var amo = (qtd*erro)/aux //aqui foi definido o valor a ser retirado da amostra
+
+			var sis = Math.round(qtd/amo);
+
+			if(sis<2){
+				alert("O modelo de pesquisa não é apropriado pela quantidade da população, os dados serão tratados como censo")
+			}else{
+            	alert("Nosso sistema vai escolher os dados de " + sis + " em " + sis);
+                             
+            	//O procedimento abaixo serve para criar um vetor apenas com os dados escolhidos da sistemática
+				var pri = 0; 
+				while (pri<1 || pri>sis){
+                	pri = prompt ("Digite a primeira posição da lista a ser pesquisada, de 1 a "+ sis);
+            	}
+        		var sis2 = [];
+            	aux = 0;
+				i = parseInt(pri);  
+            	while (i<=vet1.length){
+                	sis2[aux] = vet1[i-1];   
+                	aux++
+                	i+=sis;
+            	}
+            	limpaVetor(vet1);
+            	for (i=0;i<=sis2.length;i++){
+                	vet1[i]=sis2[i];     //passando de um vetor pro outro pra ficar mais facil de trabalhar
+            	}
+			}
+			organizar(vet1);
+            separar(vet1);	
+		}
+		
+
+		////////////////////////////////////////// daqui pra baixo //////////////////////////////////////////////
+		var radios = document.getElementsByName("op");
+    	for (var i = 0; i < radios.length; i++) {
+        	if (radios[i].checked) {
+            	opc =  radios[i].value;
+			}
+    	}
+		if (opc == "discreta"){
+			
+			if (opc2 == "estratificada"){
+				organizar(vet1);
+				separar(vet1);                  //retoques finais ! DEU MUITO TRABALHO CHEGAR NESSES NUMEROS!!!!!!!!!!!!!!!!!!!!!!!
+				qtd = vet1.length;
+			}
+		
+			//calculando média 
+			var media = 0;
+        	for (i=0;i<vet2.length;i++){
+        		media+= (vet2[i]*vet3[i]);
+        	}
+        	media = (media/qtd);
+		
+
+			//calculando moda 
+			var moda = 0;
+        	var ref = 0;
+            	for (i=0;i<vet3.length;i++){
+                	if (vet3[i]>ref){
+                   	 	moda = vet2[i];
+                    	ref = vet3[i];
+                	}
+        		}
+			parseFloat(moda);
+			
+		
+			//calculando a mediana
+			var mediana = 0;
+        	var impqtd = 0;
+        	var parqtd = 0;
+        	var auxiliarzona = 0;
+        	parqtd = parseInt(qtd);
+        	impqtd = parseInt(qtd);
+        	if (parqtd%2 == 0){
+        		var med1 = 0;
+            	var med2 = 0;
+            	auxiliarzona = (vet1[parqtd/2]);
+            	med1 = auxiliarzona;
+            	auxiliarzona = (vet1[(parqtd/2)+1]);
+            	med2 = auxiliarzona;
+            	mediana = (parseInt(med1)+parseInt(med2))/2;
+        	}else if (impqtd%2 == 1){
+            	mediana = (impqtd+1);
+            	mediana = mediana/2;
+            	auxiliarzona = vet1[mediana];
+            	mediana = auxiliarzona;
+        	}
+		
+			//Definindo a porcentagem das repetições no vet4
+			for (i=0;i<vet2.length;i++){
+            	vet4[i] = Math.round((vet3[i]/qtd*100));        
+        	}
+		
+
+			//Definindo o F no vet5
+			vet5[0] = vet3[0];   
+        	for (i=1;i<vet3.length;i++){
+            	aux = parseInt(vet3[i]);
+            	aux += parseInt(vet5[i-1]);
+            	vet5[i] = aux;
+        	}
+
+
+			//Definindo o F% no vet6
+			for (i=0;i<vet5.length;i++){
+            	vet6[i] = Math.round((vet5[i]/qtd*100)); 
+        	}
+
+			//definindo xi.fi no vet8   
+			for (i=0;i<vet2.length;i++){
+            	vet8[i] = vet2[i]*vet3[i];
+        	}
+
+			//atribuindo valores de variancia
+			var somatorio = 0;
+        	aux = 0;
+        	for (i=0;i<vet2.length;i++){
+            	aux = ((vet2[i]-media)*(vet2[i]-media))*vet3[i];
+            	aux = aux.toFixed(2);
+            	aux = parseFloat(aux);
+            	vet9[i] = aux;
+        		somatorio+=vet9[i];
+        	}
+			var variancia = somatorio/(qtd-1);
+        	variancia = variancia.toFixed(2);
+        	variancia = parseFloat(variancia);
+			
+
+			//encontrando o desvio padrao e coeficiente de variação
+			var desvio = Math.sqrt(variancia);
+        	desvio = desvio.toFixed(2);   //arredondando para duas casas decimais
+        	desvio = parseFloat(desvio);
+			var coeficiente = 0;
+        	coeficiente = Math.round((desvio/media)*100);
+
+
+			var rMedia = document.getElementById('rMedia');
+			rMedia.innerHTML = media.toFixed(2) + "%";            //exibe o resultado!
+
+			var rModa = document.getElementById('rModa');
+			rModa.innerHTML = moda;
+
+			var rMediana = document.getElementById('rMediana');
+			rMediana.innerHTML = mediana;
+
+			var rDesvio = document.getElementById('rDesvio');
+			rDesvio.innerHTML = desvio;
+
+			var rVariacao = document.getElementById('rVariacao');
+			rVariacao.innerHTML = coeficiente + "%";
+			
+
+			///////////////////////////////////Montando a tabela//////////////////////////////////////////////////////
+			var k = 0;
+			var mega = [];
+			for (i=0;i<vet3.length;i++){
+				mega.push(vet2[i]);
+				mega.push(vet3[i]);       ///////////intercalar os vetores para exibir na tabela dinamica
+				mega.push(vet4[i]);
+				mega.push(vet5[i]);
+				mega.push(vet6[i]);
+			}
+
+			for(i=0;i<vet2.length;i++){
+    			// Captura a referência da tabela com id “TabelaDis”
+        		var table = document.getElementById("TabelaDis");
+        		// Captura a quantidade de linhas já existentes na tabela
+        		var numOfRows = table.rows.length;
+        		// Captura a quantidade de colunas da última linha da tabela
+        		var numOfCols = table.rows[numOfRows-1].cells.length;
+
+        		// Insere uma linha no fim da tabela.
+        		var newRow = table.insertRow(numOfRows);
+ 
+        		// Faz um loop para criar as colunas
+        		for (var j = 0; j < numOfCols; j++) {
+            		// Insere uma coluna na nova linha 
+            		newCell = newRow.insertCell(j);
+            		// Insere um conteúdo na coluna
+            		newCell.innerHTML = mega[k];
+					k++
+        		}
+
+    		}
+
+			//E por fim, fazendo todo mundo aparecer!!!!
+
+			show("sMedia");
+			show("sModa");
+			show("sMediana");
+			show("sDesvio");
+			show("sVariacao");
+			show("sTd");
+
+
+		}
+		if (opc == "continua"){
+
+			if (opc2 == "estratificada"){
+				organizar(vet1);
+				separar(vet1);                  //retoques finais ! DEU MUITO TRABALHO CHEGAR NESSES NUMEROS!!!!!!!!!!!!!!!!!!!!!!!
+				qtd = vet1.length;
+			}
+
+			//calculo da amplitude
+			var amp = ((vet1[vet1.length-1])-(vet1[0]));
+            var classe = Math.floor(Math.sqrt(qtd));  //tira a raiz e arredonda o numero pra baixo (ex 8,6 = 8)
+            
+
+            var classes = []; //esse é o primeiro vetor a aparecer na tabela contínua!!!!
+        	var inter = 0;     
+            var resto = 1;
+            var k = 1;
+            var cl = 0;
+                        
+            // o while a seguir serve para encontrar a divisão perfeita
+
+                        
+            while(resto!=0){
+                inter = ((amp+k)/(classe+1));
+                resto = ((amp+k)%(classe+1));           
+                k++;
+            }
+            cl = classe+1;   //qualquer coisa volta aqui!!
+			for (i=0;i<cl;i++){
+                    classes[i] = i+1;  //for para preencher o vetor (ex: 1,2,3,4,5,6....)
+                }
+
+
+			var intervalores = [];
+            var intervalos = [];
+            intervalos[0] = parseInt(vet1[0]);
+            k = inter;
+            var ale = 0;
+            for (i=1;i<=cl;i++){
+                ale = vet1[0];
+                intervalos[i] = (parseInt(ale)+k);
+                k+=inter;
+            }
+            
+    
+			var ac = 0;
+            aux = 0;
+            var ax = 0;
+                  
+
+                        
+            var soma = 0;
+            for(i=0;i<vet1.length;i++){
+                if (vet1[i]>=intervalos[aux] && vet1[i]<intervalos[aux+1]){
+                    ac+=1;
+                }else{
+                intervalores[ax] = ac;
+                ax++;
+                aux++
+                ac = 1;
+                                    
+                }
+        	}
+            intervalores[ax] = ac;
+
+            //para conferir se todos os números foram atribuidos
+            for (i=0;i<intervalores.length;i++){
+                soma+=intervalores[i];
+
+            }
+
+            if (qtd>soma){
+                intervalores[intervalores.length-2]+=1;
+            }
+
+		
+
+			
+			//Definindo a porcentagem das repetições no vet4
+            for (i=0;i<intervalores.length;i++){
+                vet4[i] = Math.round((intervalores[i]/qtd*100));        
+            }
+
+
+			//Definindo o F no vet5
+			vet5[0] = intervalores[0];   
+                for (i=1;i<intervalores.length;i++){
+                    aux = parseInt(intervalores[i]);
+                    aux += parseInt(vet5[i-1]);
+                    vet5[i] = aux;
+                }
+
+			//Definindo o F% no vet6
+			for (i=0;i<vet5.length;i++){
+                vet6[i] = Math.round((vet5[i]/qtd*100));  
+            }
+
+
+			//Definindo Xi no vet7
+			for (i=0;i<intervalos.length-1;i++){   //length-1 para nao calcular um número acima do limite do vetor no final
+                    vet7[i] = ((intervalos[i]+intervalos[i+1])/2);
+                }
+			
+
+			//Definindo Xi.Fi no vet8
+			for(i=0;i<intervalores.length;i++){
+                	vet8[i] = (intervalores[i]*vet7[i]);
+                }
+			
+			//Definindo a média
+			var media;
+            soma = 0;
+            for (i=0;i<vet8.length;i++){
+                soma+=vet8[i];
+            }
+            media = soma/qtd;
+			
+			//Definindo a moda e em seguida definindo a CLASSE MODAL
+			var moda = 0;
+            var ref = 0;
+            for (i=0;i<vet4.length;i++){
+                if (vet4[i]>ref){
+                    moda = vet7[i];
+                    ref = vet4[i];
+                }
+            }
+            var cMod = vet4.indexOf(ref)+1;  //encontra a classe modal para futuros calculos
+			
+			//Definindo a mediana
+			var pl = qtd/2;
+            var classMed;
+            var MedCont;
+            //1º passo encontrar a classe da mediana
+            for(i=1;i<vet5.length;i++){
+                if (vet5[i]>=pl){
+                    classMed = i+1;    
+                    break; 
+                }
+            }
+            //2º passo: Fórmula
+            
+            medCont = intervalos[classMed-1]+(pl-vet5[classMed-2])/(intervalores[classMed-1])*cl;  //sim, deu certo de primeira!
+			
+
+
+			//Definindo a Moda Pearson
+			var pearson = (3*medCont)-(media*2);
+
+            //testando valores inexistentes.
+			var limite = intervalos[cMod-1];
+			if (typeof limite == "undefined"){
+				limite = 0 ;
+			}
+
+			var fipost = intervalores[cMod];
+			if (typeof fipost == "undefined"){
+				fipost = 0;
+			}
+			
+			var fiant = intervalores[cMod-2];
+			if (typeof fiant == "undefined"){
+				fiant = 0;
+			}
+			
+			var fimo = intervalores[cMod-1];
+			if (typeof fimo == "undefined"){
+				fimo = 0;
+			}
+
+			//Definindo a Moda King
+			var king = 0;
+            king = parseInt(Math.round(limite+(fipost/(fiant+fipost)*cl)));
+                        
+            //Definindo a Moda Czuber
+            var czuber = 0;
+			czuber = parseInt(Math.round(limite+((fimo-fiant)/((2*fimo)-(fiant+fipost))*cl)));
+
+			//atribuindo valores de variancia no vet9
+			var somatorio = 0;
+            aux = 0;
+            for (i=0;i<vet7.length;i++){
+                aux = ((vet7[i]-media)*(vet7[i]-media))*intervalores[i];
+                aux = aux.toFixed(2);
+                aux = parseFloat(aux);
+                vet9[i] = aux;
+                somatorio+=vet9[i];
+            }
+
+			var variancia = somatorio/(qtd-1);
+            variancia = variancia.toFixed(2);              
+            variancia = parseFloat(variancia);
+
+			//encontrando o desvio padrao e o coeficiente de variancia
+			var desvio = Math.sqrt(variancia);
+            desvio = desvio.toFixed(2);   //arredondando para duas casas decimais
+            desvio = parseFloat(desvio);
+            var coeficiente = 0;
+            coeficiente = Math.round((desvio/media)*100);
+
+
+			
+
+			var rMedia = document.getElementById('rMedia');
+			rMedia.innerHTML = media.toFixed(2) + "%";            //exibe o resultado!
+
+			var rModa = document.getElementById('rModa');
+			rModa.innerHTML = moda;
+
+			var rPearson = document.getElementById('rPearson');
+			rPearson.innerHTML = pearson;
+
+			var rKing = document.getElementById('rKing');
+			rKing.innerHTML = king;
+
+			var rCzuber = document.getElementById('rCzuber');
+			rCzuber.innerHTML = czuber;
+
+			var rMediana = document.getElementById('rMediana');
+			rMediana.innerHTML = medCont;
+
+			var rDesvio = document.getElementById('rDesvio');
+			rDesvio.innerHTML = desvio;
+
+			var rVariacao = document.getElementById('rVariacao');
+			rVariacao.innerHTML = coeficiente + "%";
+
+			//separando o intervalo de classe para exibir corretamente na tabela dinamica
+			var de = [];
+			var ate = [];
+			for(i=0;i<classes.length;i++){
+				de.push(intervalos[i]);
+				ate.push(intervalos[i+1]);
+			}
+
+
+			///////////////////////////////////////tabela//////////////////////////////////////////////////
+			var k = 0;
+			var mega = [];
+			for (i=0;i<vet3.length;i++){
+				mega.push(classes[i]);
+				mega.push(de[i]);       ///////////intercalar os vetores para exibir na tabela dinamica
+				mega.push(ate[i]);
+				mega.push(intervalores[i]);
+				mega.push(vet4[i]);
+				mega.push(vet5[i]);
+				mega.push(vet6[i]);
+			}
+
+			for(i=0;i<classes.length;i++){
+    			// Captura a referência da tabela com id “TabelaDis”
+        		var table = document.getElementById("tabelaCon");
+        		// Captura a quantidade de linhas já existentes na tabela
+        		var numOfRows = table.rows.length;
+        		// Captura a quantidade de colunas da última linha da tabela
+        		var numOfCols = table.rows[numOfRows-1].cells.length;
+
+        		// Insere uma linha no fim da tabela.
+        		var newRow = table.insertRow(numOfRows);
+ 
+        		// Faz um loop para criar as colunas
+        		for (var j = 0; j < numOfCols; j++) {
+            		// Insere uma coluna na nova linha 
+            		newCell = newRow.insertCell(j);
+            		// Insere um conteúdo na coluna
+            		newCell.innerHTML = mega[k];
+					k++
+        		}
+
+    		}
+
+
+			//E por fim, fazendo todo mundo aparecer!!!!
+
+			show("sMedia");
+			show("sModa");
+			show("sPearson");
+			show("sKing");
+			show("sCzuber");
+			show("sMediana");
+			show("sDesvio");
+			show("sVariacao");
+			show("sTc");
+
+
+		}	
+	}
+
+	
+
+	
+		  
+</script>

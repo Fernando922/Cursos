@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Título da Página</title>
+        <script type="text/javascript">
+            var vetor = [];
+            var num,i,aux;
+            aux = 0;
+            
+            
+           
+            num = parseInt(prompt("digite um número!"));
+            while (num!=-1) {
+                vetor[i] = num;    // fazendo dessa forma o código fica menor quando vc repete a pergunta dentro do while
+                i++;
+                num = parseInt(prompt("digite um número!")); 
+            }
+            alert (vetor);
+            for (i=0; i<vetor.length/2; i++){   //divido por dois é porque se for todo o tamanho do vetor, ele inverte de desfaz o que foi invertido
+                aux = vetor[i];
+                vetor[i] = vetor[vetor.length-1-i];   // nesse caso -1-i eh pq o tamanho do vetor nao eh o ultimo numero ! 0-9 porem o tamanho é 10
+                vetor[vetor.length-1-i] = aux;
+            }
+            alert (vetor);
+           
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

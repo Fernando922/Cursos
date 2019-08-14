@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+body {
+	background-color: #878094;
+	color: yellow;
+	size: 54px;
+
+	
+}
+
+	</style>
+
+
+
+	<h1><center>TORRE DE HANOI</center></h1>
+	<p> <center>ESTES SAO OS MOVIMENTOS PASSO A PASSO DA TORRE DE HANOI!!! </center></p>
+	
+	<meta charset="UTF-8">
+	<script type="text/javascript">
+			function torreHanoi(numeroDisco,pinoFonte,pinoAuxiliar,pinoDestino){
+	  			if(numeroDisco > 0){
+	    			torreHanoi(numeroDisco -1,pinoFonte,pinoDestino,pinoAuxiliar);
+	    			document.write('<br>Mover disco '+numeroDisco+' do '+pinoFonte+' para o '+pinoDestino);
+	    			torreHanoi(numeroDisco -1,pinoAuxiliar,pinoFonte,pinoDestino);
+					
+	  			}
+	  			
+			}	
+
+		var ans;
+		  ans= torreHanoi(prompt('Digite o número de discos'),'Pino A','Pino B','Pino C');
+
+				 
+						
+	</script>
+</head>
+<body>
+		
+</body>
+
+<title>TORRE DE HANOI</title>
+</html>

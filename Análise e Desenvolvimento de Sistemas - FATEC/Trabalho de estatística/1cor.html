@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Correlação e Regressão</title>
+		<link rel="stylesheet" type="text/css" href="1estilos.css" media="all" />
+		
+	</head>
+	<body class="center">
+		<div id="links">
+			<a href="1home.html">Home</a>
+			<a href="1censo.html">Censo</a>
+			<a href="1estima.html">Estimação</a>
+			<a href="1ic.html">Intervalo de Confiança</a>
+			<a href="1dbinomial.html">Distribuição Binomial</a>
+		</div>
+		
+			<h1>Correlação e Regressão</h1>
+		
+		
+		<div>
+			<h3>Correlação</h3>
+			<h4>Insira os valores Independentes (X)</h4>
+			<input id="x" type="text" />
+			<p></p>
+			<h4>Insira os valores Dependentes (Y)</h4>
+			<input id="y" type="text"/>
+			<p></p>
+		</div>
+		<button onclick="calcular()" id="botao" class="css_btn_class">Calcular</button>
+
+		<div id="resposta">
+			<h4 id="cor"></h4>
+			<p id="res"></p>	
+			<p id="pn"></p>	
+		</div>
+
+		<div id="regressao" style = "display:none">				
+			<h3>Regressão</h3>
+			<h4>Insira o Valor de X desejado</h4>
+			<input id="numero" type="number"/>
+			<p></p>
+			<button onclick="cReg()" class="css_btn_class">Obter Valor</button>
+		</div>
+
+		<div id="r2" style = "display:none">
+			<h4>Valor encontrado:</h4>
+			<p id="reg"></p>
+		</div>
+
+	</body>
+</html>
+
+<script type="text/javascript">
+
+var i;
+var salva;
+var vet1 = [];
+var vet2 = [];
+var somax = 0;
+var somay = 0;
+var xy = [];
+var somaxy = 0;
+var xi2 = [];
+var yi2 = [];
+var somaxi2 = 0;
+var somayi2 = 0;
+var r;
+var r1 = 0;
+var r2 = 0;
+var n = 0;
+var raiz = 0;
+
+
+
+//serve para ocultar qualquer campo do html.
+function show(div){
+		display = document.getElementById(div).style.display;
+		if(display == "none"){
+            document.getElementById(div).style.display = 'block';
+        }else{
+            document.getElementById(div).style.display = 'none';
+    	}
+}
+    
+
+
+
+
+function calcular(){
+	salva = document.getElementById("x").value; //aqui é feita a entrada dos dados a serem pesquisados
+	vet1 = salva.split(",");
+	parseFloat(vet1);
+
+	salva = document.getElementById("y").value; //aqui é feita a entrada dos dados a serem pesquisados
+	vet2 = salva.split(",");
+	parseFloat(vet2);
+
+
+
+
+	//atribuindo todos os valores necessários para a fórmula
+	for(i=0;i<vet1.length;i++){
+		xy[i] = vet1[i]*vet2[i];
+		xi2[i] = vet1[i]*vet1[i];
+		yi2[i] = vet2[i]*vet2[i];
+		somax += parseFloat(vet1[i]);
+		somay += parseFloat(vet2[i]);
+		somaxy += parseFloat(xy[i]);
+		somaxi2 += parseFloat(xi2[i]);
+		somayi2 += parseFloat(yi2[i]);
+
+	}
+
+	n = vet1.length;
+	r1 =  (n*somaxy)-(somax*somay);   //linha de cima da fórmula
+	r2 = ((n*somaxi2)-(somax*somax))  *  ((n*somayi2)-(somay*somay));
+	raiz = Math.sqrt(r2);
+
+	r = (r1/raiz)*100;
+	
+	//convertendo o número pra ficar uma exibição mais limpa
+	if(r<0){
+		r = r*-1;
+		var pn = "Negativo";
+	}else if (r>0){
+		var pn = "Positivo";
+	}
+
+
+	//verificando a porcentagem de correlação
+	if (r>0 && r<30){
+		var cor = "Correlação de inexistente a muito fraca";
+	}else if (r>=30 && r<60){
+		var cor = "Correlação de muito fraca a média"
+	}else if (r>=6  && r<=100){
+		var cor = "Correlação de média a forte"
+	}
+
+	var rRes = document.getElementById('res');
+	rRes.innerHTML = r.toFixed(2) + "%";
+
+	var rPn = document.getElementById('pn');
+	rPn.innerHTML = pn;
+
+	var rCor = document.getElementById('cor');
+	rCor.innerHTML = cor;
+
+	show("botao");
+	show("regressao");
+}
+
+function cReg(){
+	var numero = parseFloat(document.getElementById("numero").value);
+	var a = r1/((n*somaxi2)-(somax*somax));
+	var mediay = somay/n;
+	var mediax = somax/n;
+	var b = mediay-(a*mediax);
+	
+	var fx = (a*numero)+b;
+
+
+	var rReg = document.getElementById('reg');
+	rReg.innerHTML = fx.toFixed(2);
+	show("r2");
+
+
+
+}
+
+
+
+
+
+
+            
+</script>

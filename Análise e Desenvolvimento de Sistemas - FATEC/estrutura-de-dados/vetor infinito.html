@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Título da Página</title>
+        <script type="text/javascript">
+            var vetor = [];
+            var num = 0;
+            var i = 0;
+            var aux = 0;
+            var cont = 0;
+            var rep = 0;
+            num = parseInt(prompt("digite um número!"));
+            while (num!=-1) {
+                vetor[i] = num;
+                i++
+                num = parseInt(prompt("digite um número!")); 
+            }
+            alert (vetor);
+            for (i=0; i<vetor.length; i++){   //serve para definir o número atual para comparar
+                for (cont=i+1; cont<vetor.length; cont++){    //esse for serve para comparar o número atual com todos os proximos
+                    if (vetor[cont] == vetor[i]){
+                        rep++;
+                    }
+
+                }
+            }
+            if (rep>0){
+                alert("Quantidade de números repetidos: " + rep);
+            }else {
+                alert("Não houve números repetidos!")
+            }
+				
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

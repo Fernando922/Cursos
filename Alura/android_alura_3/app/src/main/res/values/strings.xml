@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="MissingTranslation">Agenda</string>
+    <string name="nome" tools:ignore="MissingTranslation">Nome</string>
+    <string name="telefone" tools:ignore="MissingTranslation">Telefone</string>
+    <string name="e_mail" tools:ignore="MissingTranslation">E-mail</string>
+    <string name="salvar" tools:ignore="MissingTranslation">salvar</string>
+    <string name="remover" tools:ignore="MissingTranslation">Remover</string>
+    <string name="elogiar" tools:ignore="MissingTranslation">Elogiar</string>
+</resources>

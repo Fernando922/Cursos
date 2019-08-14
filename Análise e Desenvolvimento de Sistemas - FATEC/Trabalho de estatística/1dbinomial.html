@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Distribuição Binomial</title>
+		<link rel="stylesheet" type="text/css" href="1estilos.css" media="all" />
+		
+	</head>
+	<body class="center">
+		<div id="links">
+			<a href="1home.html">Home</a>
+			<a href="1censo.html">Censo</a>
+			<a href="1estima.html">Estimação</a>
+			<a href="1ic.html">Intervalo de Confiança</a>
+			<a href="1dnormal.html">Distribuição Normal</a>
+			<a href="1cor.html">Correlação e Regressão</a>
+		</div>
+		<h1>Distribuição Binomial</h1>
+		
+			<div>
+				<h4>Informe o nome do Grupo 1</h4>
+				<input id="g1" type="text" step="any" />
+			</div>
+
+			<div>
+				<h4>Informe a porcentagem do Grupo 1</h4>
+				<input id="p1" type="number" step="any" />
+			</div>
+			
+			<div>
+				<h4>Informe o nome do Grupo 2</h4>
+				<input id="g2" type="text" step="any" />
+			</div>
+
+			<div>
+				<h4>Informe a porcentagem do Grupo 2</h4>
+				<input id="p2" type="number" step="any" />
+			</div>
+			
+			<div>
+				<h4>Informe o valor da amostra desejado</h4>
+				<input id="amo" type="number" step="any" />
+			</div>
+			<p></p>
+
+
+					
+			
+
+
+			<div id="radio">
+				<h3>Selecione o grupo onde será feito a análise</h3>
+				<input type="radio" name="op"  value="Grupo 1"/>
+				<label>Grupo 1</label>	   
+				<input type="radio" name="op" value="Grupo 2"/>
+				<label>Grupo 2</label>
+					   
+				
+				<p></p>
+			</div>
+
+			
+
+
+			<h3>Selecione abaixo a forma de análise desejada</h3>
+
+			<div id="bi">
+				<h4>Por quantidade</h4>
+				<input id="qtd" type="number" step="any" />
+				<button onclick="porQuantidade()"class="css_btn_class">Calcular</button>
+			</div>
+
+			<p id="rQtd"></p>
+
+			<div id="bi">
+				<h4>Entre Valores</h4>
+				<p></p>
+				<label for="vl1">Entre</label>
+				<input id="vl1" type="number" step="any"  />
+				<label for="vl2">e</label>
+				<input id="vl2" type="number" step="any"  />
+				<button onclick="entreValores()"class="css_btn_class">Calcular</button>
+			</div>
+	
+			<p id="rEnt"></p>
+
+			<div id="bi">
+				<h4>Minimo ao máximo</h4>
+				<p></p>
+				<label for="mm1">Mínimo</label>
+				<input id="mm1" type="number" step="any"  />
+				<label for="mm2">Máximo</label>
+				<input id="mm2" type="number" step="any"  />
+				<button onclick="minimoMaximo()"class="css_btn_class">Calcular</button>
+			</div>
+	
+			<p id="rMm"></p>
+
+			<div id="bi">
+				<h4>No máximo...</h4>
+				<p></p>
+				<label for="m">Máximo</label>
+				<input id="m" type="number" step="any" />
+				<button onclick="maximo()"class="css_btn_class">Calcular</button>
+			</div>
+	
+			<p id="rM"></p>
+
+
+
+
+
+
+
+
+
+			<div id="sMedia" style="display:none">
+				<h4>Média</h4>
+				<p id="rMedia"></p>
+			</div>
+
+			<div id="sDesvio" style="display:none">
+				<h4>Desvio Padrão</h4>
+				<p id="rDesvio"></p>
+			</div>
+
+			<div id="sVariacao" style="display:none">
+				<h4>Coeficiente de Variação</h4>
+				<p id="rVariacao"></p>
+			</div>
+		
+			<div>
+				<button onclick="mdv()"class="css_btn_class">Obter Media, Desvio e Variação</button>
+			</div>
+
+			
+
+
+				
+		
+		
+	</body>
+</html>
+
+<script type="text/javascript">
+
+
+		var opc,i;
+		var vl1 = 0;
+		var suc = 0;
+		var fra = 0;
+		var vl2 = 0;
+		var n = 0;
+		var k = 0;
+		var comb = 0;
+		var p = 0;
+		var q = 0;
+		var ex = 0;
+		var ac = 0;
+		var media = 0;
+		var desvio = 0;
+		var aux = 0;
+
+
+
+		//////////////////////////////////////////////AUXILIARES////////////////////////////////////////////////////////////////////
+
+
+		//serve para ocultar qualquer campo do html.
+		function show(div){
+			display = document.getElementById(div).style.display;
+			if(display == "none"){
+            	document.getElementById(div).style.display = 'block';
+        	}else{
+           	 	document.getElementById(div).style.display = 'none';
+    		}
+		}
+
+
+		function verificar() {   //verifica qual radio foi selecionado e ja atribui os valores de sucesso e fracasso nas variaveis
+    		var radios = document.getElementsByName("op");
+    		for (var i = 0; i < radios.length; i++) {
+        		if (radios[i].checked) {
+            		opc =  radios[i].value;
+				}
+    		}
+			if (opc == "Grupo 1"){
+				suc = parseFloat(document.getElementById("p1").value);
+				suc = suc/100;
+				fra = parseFloat(document.getElementById("p2").value);
+				fra = fra/100;
+			}
+			else if (opc == "Grupo 2"){
+				fra = parseFloat(document.getElementById("p1").value);
+				fra = fra/100;
+				suc = parseFloat(document.getElementById("p2").value);
+				suc = suc/100;
+			}
+			n = parseInt(document.getElementById("amo").value);   //ja aproveita e retira o valor da amostra!
+		}
+
+
+		function fatorial(num){     //serve para obter o resultado fatorial de um número
+             if (num<0){
+                return -1;
+            }
+            else if (num == 0){
+                return 1;
+            }
+            else {
+                return (num * fatorial(num - 1));
+            }
+        }
+
+		function nCr(amostra,evento){              //aplica a função de combinações
+			var cima = fatorial(amostra);
+			var esq = fatorial(evento);
+			var dir = amostra-evento;
+			dir = fatorial(dir);
+			var baixo = esq*dir;
+			var result = cima/baixo;
+			return result;
+		}
+
+
+
+		///////////////////////////////////////////////////////DESENVOLVIMENTO//////////////////////////////////////////////////////////
+		function porQuantidade(){
+			verificar();
+			k = parseInt(document.getElementById("qtd").value);
+			comb = nCr(n,k);
+
+			p = Math.pow(suc,k);
+			q = Math.pow(fra,n-k);
+
+			ex = (comb*(p*q))*100;
+
+			
+			var rQtd = document.getElementById('rQtd');   
+
+      		rQtd.innerHTML = ex.toFixed(2) + "%";   //mostra o resultado no html com 2 casas decimais!
+
+		}
+
+		function entreValores(){
+			verificar();
+			vl1 = parseInt(document.getElementById("vl1").value);
+			vl2 = parseInt(document.getElementById("vl2").value);
+
+			k = vl1+1;
+			while (k<vl2){
+				comb = nCr(n,k);
+				p = Math.pow(suc,k);
+				q = Math.pow(fra,n-k);
+				ex += (comb*(p*q))*100;
+				k++
+			}
+			var rEnt = document.getElementById('rEnt');
+			rEnt.innerHTML = ex.toFixed(2) + "%";            //exibe o resultado!		
+		}
+
+		function minimoMaximo(){
+			verificar();
+			vl1 = parseInt(document.getElementById("mm1").value);
+			vl2 = parseInt(document.getElementById("mm2").value);
+
+			k = vl1
+			while (k<=vl2){
+				comb = nCr(n,k);
+				p = Math.pow(suc,k);
+				q = Math.pow(fra,n-k);
+				ex += (comb*(p*q))*100;
+				k++
+			}
+			var rMm = document.getElementById('rMm');
+			rMm.innerHTML = ex.toFixed(2) + "%";            //exibe o resultado!
+		}
+
+		function maximo(){
+			verificar();
+			vl1 = parseInt(document.getElementById("m").value);
+			k=0;
+
+			while (k<=vl1){
+				comb = nCr(n,k);
+				p = Math.pow(suc,k);
+				q = Math.pow(fra,n-k);
+				ex += (comb*(p*q))*100;
+				k++
+			}
+			var rM = document.getElementById('rM');
+			rM.innerHTML = ex.toFixed(2) + "%";            //exibe o resultado!
+		}
+
+		function mdv(){
+			verificar();
+			p = suc;
+			q = fra;
+			media = n*suc;
+			aux = n*p*q;
+			desvio = Math.sqrt(aux);
+			var variacao = (desvio/media)*100;
+
+			var rMedia = document.getElementById('rMedia');
+			rMedia.innerHTML = media.toFixed(2) + "%";            //exibe o resultado!
+
+			var rDesvio = document.getElementById('rDesvio');
+			rDesvio.innerHTML = desvio.toFixed(2) + "%";            //exibe o resultado!
+
+			var rVariacao = document.getElementById('rVariacao');
+			rVariacao.innerHTML = variacao.toFixed(2) + "%";            //exibe o resultado!
+
+			show("sMedia");
+			show("sDesvio");
+			show("sVariacao");
+
+		}
+
+
+
+
+
+
+
+
+	
+	
+</script>

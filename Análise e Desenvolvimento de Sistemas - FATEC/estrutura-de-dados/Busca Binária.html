@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Potência</title>
+        <script type="text/javascript">
+            var result;
+
+            function pot(b,e){
+                if (e == 0){
+                    return 1
+                }else{
+                    return b * pot(b,e-1); 
+                }
+               
+
+            }
+            var result = pot(5,2);
+            document.write(result);
+            
+
+
+        </script>
+	</head>
+	<body>
+
+	</body>
+</html>
+                                                                                                       

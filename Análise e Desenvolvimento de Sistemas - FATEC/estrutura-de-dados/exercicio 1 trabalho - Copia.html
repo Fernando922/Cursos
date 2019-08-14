@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Título da Página</title>
+        <script type="text/javascript">
+			
+			var vetor = [];
+			var pilha = [];
+			var string,i,x;
+
+			string = prompt("digite sua expressão");
+			vetor = string.split("");                   //converte a expressão para vetor
+			alert (vetor);
+
+            for(i=0;i<vetor.length;i++){
+                if (vetor[i]=="(" || vetor[i] == "[" || vetor[i] == "{"){
+                    pilha.push(vetor[i]);
+                }else if (vetor[i]==")" || vetor[i] == ")" || vetor[i] == "}"){
+                    x = pilha.pop();
+                }
+
+            }
+                if (vetor[i] != "}" && x == "{"  || vetor[i] != ")" && x == "(" || vetor[i] != "]" && x == "["){
+                    alert("expressão incorreta!");
+                }else{
+                    alert("Sua expressão está correta!");
+                }
+        
+                
+            
+
+				
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,14 @@
+Nome			Shorthand operator		Significado
+Atribuição			x = y			x = y
+Atribuição com adição		x += y			x = x + y
+Atribuição com subtração	x -= y			x = x - y
+Atribuição com multiplicação	x *= y			x = x * y
+Atribuição com divisão		x /= y			x = x / y
+Atribuição com resto		x %= y			x = x % y
+Atribuição de exponenciação	x **= y			x = x ** y
+Left shift assignment		x <<= y			x = x << y
+Right shift assignment		x >>= y			x = x >> y
+Unsigned right shift assignment	x >>>= y		x = x >>> y
+Bitwise AND atribuição		x &= y			x = x & y
+Bitwise XOR atribuição		x ^= y			x = x ^ y
+Bitwise OR atribuição		x |= y			x = x | y

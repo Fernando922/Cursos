@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Hash Linear </title>
+		<meta charset=“UTF-8”>
+
+		<script type="text/javascript">
+
+		
+			function change(letras) {
+	    		var abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	   	 		var tabela = [];
+	    		for (var i in letras) {
+	       			tabela.push(abc.indexOf(letras[i].toUpperCase()) + 1);
+	   			}
+	   	 		return tabela;
+			}
+
+			function linear(){
+				var letra;
+				var vetalpha = new Array(11);
+				var result;
+				var num;
+				var a, find, b;
+
+			
+				for(var i = 0; i < 11; i++){
+					letra = prompt("Digite Uma Letra:");
+					num = change(letra);
+					result = num % 11;   
+					
+
+					for(var y = result; y < 11; y++){
+						if (vetalpha[y] == undefined){
+							vetalpha[y] = letra;
+							break;
+						}
+					}
+				}
+				
+					while (find != -1) {
+						
+					find = prompt("Digite a chave desejada ! Ou digite [-1] para sair do ciclo ");
+					b = change(find);
+					a = vetalpha.indexOf(find,b);
+					if (find==-1){
+						var x=prompt ("Antes de Interromper, deseja criar nova sequencia? \n Digite 1 para sim \n Digite 2 para sair");
+							if (x==2){
+						alert("**Voce interrompeu o programa**");
+						break;
+							}
+						else{
+							return linear();
+						}	
+					}
+						
+					else if(a != -1){
+						alert("Chave " + find + " encontrada.");
+					}else{
+						alert("Impossivel localizar " + find + " no sistema.");
+					}
+				}
+			}
+		</script>
+	</head>
+	<body onload="linear()">
+
+	</body>
+</html>
