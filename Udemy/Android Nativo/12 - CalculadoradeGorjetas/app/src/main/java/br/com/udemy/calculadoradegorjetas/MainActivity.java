@@ -9,47 +9,61 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private EditText etValorConta;
+    private TextView tvPorcentagem, tvValorGorjeta, tvValorTotal;
+    private SeekBar sbPorcentagem;
 
-    private EditText etValorConta, etGorjeta, etTotalConta;
-    private SeekBar skPorcentagem;
-    private TextView tvPorcentagem;
+    private double porcentagem = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //inicialização das referencias
-        skPorcentagem = findViewById(R.id.sbPorcentagem);
-        etValorConta = findViewById(R.id.etValorConta);
-        etGorjeta = findViewById(R.id.etValorGorgeta);
-        etTotalConta = findViewById(R.id.etValorTotal);
+
+        etValorConta = findViewById(R.id.etValorTotal);
         tvPorcentagem = findViewById(R.id.tvPorcentagem);
+        tvValorGorjeta = findViewById(R.id.tvValorGorjeta);
+        tvValorTotal = findViewById(R.id.tvValorTotal);
+        sbPorcentagem = findViewById(R.id.sbPorcentagem);
 
-
-        skPorcentagem.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        sbPorcentagem.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                double valorConta = Double.parseDouble(etValorConta.getText().toString());
-                if (valorConta> 0) {
+                if (etValorConta.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Digite o valor da conta!", Toast.LENGTH_SHORT).show();
-                } else {
-                    int valor = seekBar.getProgress();
-                    double valorGorgeta = valorConta * (valor / 100);
-                    tvPorcentagem.setText(valor + "%");
-                    etGorjeta.setText(Double.toString(valorGorgeta));
+                    seekBar.setProgress(0);
+                    tvPorcentagem.setText(Math.round(porcentagem) + "%");
+                }else{
+                    porcentagem = seekBar.getProgress();
+                    tvPorcentagem.setText(Math.round(porcentagem) + "%");
+                    calcular();
+
                 }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(MainActivity.this, "Não seja mão de vaca!", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                if (!etValorConta.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Não seja mão de vaca!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+
+    public void calcular(){
+        double valorDigitado = Double.parseDouble(etValorConta.getText().toString());
+        double gorjeta = valorDigitado * (porcentagem/100);
+        double total = gorjeta + valorDigitado;
+
+        tvValorGorjeta.setText("R$ " + Math.round(gorjeta));
+        tvValorTotal.setText("R$ " + Math.round(total));
     }
 }

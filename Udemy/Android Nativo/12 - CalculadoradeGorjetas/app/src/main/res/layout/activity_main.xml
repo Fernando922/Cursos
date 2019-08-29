@@ -4,86 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etValorConta"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="match_parent"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilValor"
+        android:layout_width="283dp"
         android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias="0"
-        android:hint="Digite o valor da conta"/>
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/etValorTotal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Digite o valor"
+            android:inputType="numberDecimal" />
+    </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:id="@+id/tvPorcentagem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingRight="26dp"
+        android:layout_marginTop="32dp"
+        android:text="0%"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etValorConta"
-        app:layout_constraintEnd_toEndOf="@id/sbPorcentagem"
-        app:layout_constraintHorizontal_bias="0"
-        android:text="0%"/>
+        app:layout_constraintTop_toBottomOf="@+id/tilValor" />
 
     <SeekBar
         android:id="@+id/sbPorcentagem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
+        android:max="30"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvPorcentagem"
-        app:layout_constraintTop_toBottomOf="@id/etValorConta"
-        android:max="100"/>
+        app:layout_constraintStart_toEndOf="@+id/tvPorcentagem"
+        app:layout_constraintTop_toBottomOf="@+id/tilValor" />
 
     <TextView
-        android:id="@+id/tvGorgeta"
+        android:id="@+id/tvGorjeta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingRight="26dp"
+        android:layout_marginTop="32dp"
+        android:text="Gorjeta"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sbPorcentagem"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        android:text="Gorjeta"/>
-
-    <EditText
-        android:id="@+id/etValorGorgeta"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@id/tvGorgeta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sbPorcentagem"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvPorcentagem" />
 
     <TextView
         android:id="@+id/tvTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingRight="26dp"
+        android:layout_marginTop="32dp"
+        android:text="Total"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvGorgeta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        android:text="Total"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvGorjeta" />
 
-    <EditText
-        android:id="@+id/etValorTotal"
+    <TextView
+        android:id="@+id/tvValorGorjeta"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/tvTotal"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="R$ 0.00"
+        android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etValorGorgeta"/>
+        app:layout_constraintStart_toEndOf="@+id/tvGorjeta"
+        app:layout_constraintTop_toTopOf="@+id/tvGorjeta" />
 
-
-
-
-
+    <TextView
+        android:id="@+id/tvValorTotal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="R$ 0.00"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTotal"
+        app:layout_constraintTop_toTopOf="@+id/tvTotal" />
 
 </android.support.constraint.ConstraintLayout>
