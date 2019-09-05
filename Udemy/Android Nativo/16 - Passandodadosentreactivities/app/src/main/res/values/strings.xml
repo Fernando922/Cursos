@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Passando dados entre activities</string>
+    <string name="title_activity_outra">OutraActivity</string>
+</resources>
