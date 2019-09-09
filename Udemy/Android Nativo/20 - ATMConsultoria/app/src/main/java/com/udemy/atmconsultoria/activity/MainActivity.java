@@ -1,4 +1,4 @@
-package com.udemy.atmconsultoria;
+package com.udemy.atmconsultoria.activity;
 
 import android.os.Bundle;
 
@@ -13,8 +13,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.udemy.atmconsultoria.R;
 import com.udemy.atmconsultoria.fragments.ClientesFragment;
 import com.udemy.atmconsultoria.fragments.ContatoFragment;
+import com.udemy.atmconsultoria.fragments.InicialFragment;
 import com.udemy.atmconsultoria.fragments.PrincipalFragment;
 import com.udemy.atmconsultoria.fragments.ServicosFragment;
 import com.udemy.atmconsultoria.fragments.SobreFragment;
@@ -61,6 +63,11 @@ public class MainActivity extends AppCompatActivity
 
         frameLayout = findViewById(R.id.frameContainer);
 
+
+        InicialFragment inicialFragment = new InicialFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frameContainer, inicialFragment);
+        fragmentTransaction.commit();
 
     }
 
