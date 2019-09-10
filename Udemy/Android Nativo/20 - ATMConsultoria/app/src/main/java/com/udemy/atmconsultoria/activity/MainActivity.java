@@ -1,5 +1,6 @@
 package com.udemy.atmconsultoria.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,8 +46,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                enviarEmail();
             }
         });
 
@@ -63,10 +63,9 @@ public class MainActivity extends AppCompatActivity
 
         frameLayout = findViewById(R.id.frameContainer);
 
-
-        InicialFragment inicialFragment = new InicialFragment();
+        PrincipalFragment principalFragment = new PrincipalFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameContainer, inicialFragment);
+        fragmentTransaction.replace(R.id.frameContainer, principalFragment);
         fragmentTransaction.commit();
 
     }
@@ -125,11 +124,9 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.frameContainer, clientesFragment);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_contato) {
-            ContatoFragment contatoFragment = new ContatoFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frameContainer, contatoFragment);
-            fragmentTransaction.commit();
+            enviarEmail();
         } else if (id == R.id.nav_sobre) {
+            startActivity(new Intent(this, SobreActitivy.class));
             SobreFragment sobreFragment = new SobreFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frameContainer, sobreFragment);
@@ -139,5 +136,25 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void enviarEmail(){
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"dipaula018@gmail.com", "fernnando.paula@smn.com.br"});
+        email.putExtra(Intent.EXTRA_SUBJECT, "Contato pelo App!");
+        email.putExtra(Intent.EXTRA_TEXT, "Mensagem automática, por favor não responda");
+
+        //configurar apps para e-mail ( se for imagem, é imagem, pdf é pdf e por ai vai)
+
+        email.setType("message/rfc822");  //tipo padrão para email (feio né)
+        //("application/pdf")
+        //("image/png")
+        //e por ai vai :D
+
+        //o email enviado, sairá o próprio email cadastrado no gmail do dispositivo
+
+
+        startActivity(Intent.createChooser(email, "Escolha o App de e-mail"));
+
     }
 }
