@@ -1,2 +1,0 @@
-include ':app'
-rootProject.name='Banco de dados SQLite'
