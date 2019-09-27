@@ -28,6 +28,7 @@ public class DbHelper extends SQLiteOpenHelper {
 //                + TABELA_TAREFAS + " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 //                " nome TEXT NOT NULL ); ";
 
+        //cria o banco em si
         try {
             db.execSQL(sql);
             //db.execSQL(usuarios);
