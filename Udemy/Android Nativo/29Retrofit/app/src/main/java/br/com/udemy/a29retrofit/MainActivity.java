@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,7 +21,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import br.com.udemy.a29retrofit.api.CEPService;
+import br.com.udemy.a29retrofit.api.DataService;
+import br.com.udemy.a29retrofit.model.CEP;
+import br.com.udemy.a29retrofit.model.Foto;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -31,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnRecuperar;
     private TextView txtResultado;
     private Retrofit retrofit;
+    private List<Foto> listaFotos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +52,61 @@ public class MainActivity extends AppCompatActivity {
         btnRecuperar = findViewById(R.id.btnRecuperar);
         txtResultado = findViewById(R.id.txtResultado);
 
+        retrofit = new Retrofit.Builder()
+                //.baseUrl("https://viacep.com.br/ws/")  //url base
+                .baseUrl("https://jsonplaceholder.typicode.com")  //url base
+                .addConverterFactory(GsonConverterFactory.create())  //escolha de conversor
+                .build();  //criar o retrofit
+
         btnRecuperar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //recuperarCepRetrofit();
+                recuperarListaRetrofit();
+            }
+        });
 
-                //configuração básica do retrofit
-                retrofit = new Retrofit.Builder()
-                        .baseUrl("https://viacep.com.br/ws/14406584/json")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-//                MyTask request = new MyTask();
-//                String urlApi = "https://blockchain.info/ticker";
-//                String cep = "14405039";
-//                String urlCep = "https://viacep.com.br/ws/" + cep + "/json/";
-//                request.execute(urlApi);
+    }
+
+
+    private void recuperarListaRetrofit(){
+        DataService service = retrofit.create((DataService.class));
+        Call<List<Foto>> call = service.recuperarFotos();
+        call.enqueue(new Callback<List<Foto>>() {
+            @Override
+            public void onResponse(Call<List<Foto>> call, Response<List<Foto>> response) {
+                if(response.isSuccessful()){
+                    listaFotos = response.body();
+
+                    for(int i = 0; i<listaFotos.size(); i++){
+                        Foto foto = listaFotos.get(i);
+                        Log.d("Resultado", "resultado: " + foto.getId() + "/" + foto.getTitle());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Foto>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void recuperarCepRetrofit(){
+        CEPService cepService = retrofit.create(CEPService.class);
+        Call<CEP> call = cepService.recuperarCEP("14406584");
+        call.enqueue(new Callback<CEP>() {//é criada uma tarefa assincrona dentro de uma thread
+            @Override
+            public void onResponse(Call<CEP> call, Response<CEP> response) {
+                if(response.isSuccessful()){
+                    CEP cep = response.body();  //foi convertido em um model de forma automática, já que os atributos batem
+                    txtResultado.setText(cep.getLogradouro()+"/"+cep.getBairro());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CEP> call, Throwable t) {
+
             }
         });
 
