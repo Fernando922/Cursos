@@ -28,6 +28,7 @@ import br.com.udemy.a29retrofit.api.CEPService;
 import br.com.udemy.a29retrofit.api.DataService;
 import br.com.udemy.a29retrofit.model.CEP;
 import br.com.udemy.a29retrofit.model.Foto;
+import br.com.udemy.a29retrofit.model.Postagem;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtResultado;
     private Retrofit retrofit;
     private List<Foto> listaFotos = new ArrayList<>();
+    private DataService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +59,87 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl("https://jsonplaceholder.typicode.com")  //url base
                 .addConverterFactory(GsonConverterFactory.create())  //escolha de conversor
                 .build();  //criar o retrofit
+        service = retrofit.create((DataService.class));
 
         btnRecuperar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //recuperarCepRetrofit();
-                recuperarListaRetrofit();
+                //recuperarListaRetrofit();
+                //salvarPostagem();
+                //atualizarPostagem();
+                removerPostagem();
+            }
+        });
+
+    }
+
+    private void removerPostagem(){
+        Call<Void> call = service.removerPostagem(2);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    txtResultado.setText("Status: " + response.code());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void atualizarPostagem(){
+        Postagem postagem = new Postagem("1234", null, "Corpo postagem!");
+        Call<Postagem> call = service.atualizarPostagem(2, postagem);
+
+        call.enqueue(new Callback<Postagem>() {
+            @Override
+            public void onResponse(Call<Postagem> call, Response<Postagem> response) {
+                Postagem postagemResposta = response.body();
+                txtResultado.setText(
+                        "Codigo "+ response.code() + "id: "
+                                + postagemResposta.getId() + "titulo"
+                                + postagemResposta.getTitle() + "userId" + postagemResposta.getUserId() +"body " + postagemResposta.getBody()
+                );
+            }
+
+            @Override
+            public void onFailure(Call<Postagem> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void salvarPostagem(){
+
+
+        //Configura objeto postagem
+        Postagem postagem = new Postagem("1234", "Titulo postagem!", "Corpo postagem!");
+
+        //recupera o serviço e salva a postagem
+        DataService service = retrofit.create((DataService.class));
+        Call<Postagem> call = service.salvarPostagem(postagem);
+
+
+        call.enqueue(new Callback<Postagem>() {
+            @Override
+            public void onResponse(Call<Postagem> call, Response<Postagem> response) {
+                if(response.isSuccessful()){
+                    Postagem postagemResposta = response.body();
+                    txtResultado.setText(
+                            "Codigo "+ response.code() + "id: " + postagemResposta.getId() + "titulo" + postagemResposta.getTitle()
+                    );
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Postagem> call, Throwable t) {
+
             }
         });
 
