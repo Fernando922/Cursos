@@ -22,6 +22,7 @@ import br.com.udemy.minhaagenda.R;
 import br.com.udemy.minhaagenda.data.dao.ContatoDao;
 import br.com.udemy.minhaagenda.data.model.Contato;
 import br.com.udemy.minhaagenda.utils.ImagemUtils;
+import br.com.udemy.minhaagenda.utils.MascarasUtil;
 
 public class CadastraActivity extends AppCompatActivity {
 
@@ -53,6 +54,8 @@ public class CadastraActivity extends AppCompatActivity {
             contato = contatoRecuperado;
             popularTela();
         }
+
+        MascarasUtil.colocaMascara(viewTelefone, "(NN) NNNNN-NNNN");
 
         viewImagem.setOnClickListener(new View.OnClickListener() {
             @Override
