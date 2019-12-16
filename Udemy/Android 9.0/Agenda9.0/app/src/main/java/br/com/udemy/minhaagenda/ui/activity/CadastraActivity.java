@@ -1,22 +1,32 @@
 package br.com.udemy.minhaagenda.ui.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.File;
+
+import br.com.udemy.minhaagenda.BuildConfig;
 import br.com.udemy.minhaagenda.R;
 import br.com.udemy.minhaagenda.data.dao.ContatoDao;
 import br.com.udemy.minhaagenda.data.model.Contato;
+import br.com.udemy.minhaagenda.utils.ImagemUtils;
 
 public class CadastraActivity extends AppCompatActivity {
 
     public static final String PARAMETRO_CONTATO = "PARAMETRO CONTATO";
+    private static final int CAMERA_REQUEST_CODE = 495;
     private Contato contato;
     private EditText viewNome;
     private EditText viewEmail;
@@ -43,6 +53,41 @@ public class CadastraActivity extends AppCompatActivity {
             contato = contatoRecuperado;
             popularTela();
         }
+
+        viewImagem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chamarCamera();
+            }
+        });
+
+    }
+
+    private void chamarCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  //chama camera
+        String caminhoImagem = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
+        contato.setImagem(caminhoImagem);
+
+        File foto = new File(caminhoImagem);
+
+
+        intent.putExtra(
+                MediaStore.EXTRA_OUTPUT,
+                FileProvider.getUriForFile(
+                        this, BuildConfig.APPLICATION_ID + ".provider", foto
+                )
+
+        );
+
+        startActivityForResult(intent, CAMERA_REQUEST_CODE );
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            ImagemUtils.setImagem(viewImagem, contato.getImagem());
+        }
+        super.onActivityResult(requestCode, resultCode, data);
 
     }
 

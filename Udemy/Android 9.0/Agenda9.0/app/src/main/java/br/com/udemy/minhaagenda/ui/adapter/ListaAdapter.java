@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import br.com.udemy.minhaagenda.R;
 import br.com.udemy.minhaagenda.data.model.Contato;
+import br.com.udemy.minhaagenda.utils.ImagemUtils;
 
 public class ListaAdapter extends BaseAdapter {
 
@@ -54,6 +55,7 @@ public class ListaAdapter extends BaseAdapter {
 
         txtEmail.setText(contato.getEmail());
         txtNome.setText(contato.getNome());
+        ImagemUtils.setImagem(viewImage, contato.getImagem(), 60, 60);
 
 
         return convertView;
