@@ -98,6 +98,7 @@ public class CadastraActivity extends AppCompatActivity {
         viewNome.setText(contato.getNome());
         viewEmail.setText(contato.getEmail());
         viewTelefone.setText(contato.getTelefone());
+        ImagemUtils.setImagem(viewImagem, contato.getImagem());
     }
 
     @Override
