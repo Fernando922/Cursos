@@ -46,3 +46,7 @@ class Negociacao {
 // ser acessadas pelos proprios métodos da classe!!!
 
 //já o javascript não possui modificadores de acesso!!!
+
+
+
+
