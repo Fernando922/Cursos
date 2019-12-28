@@ -1,5 +1,6 @@
 class Negociacao {
   constructor(data, quantidade, valor) {
+    debugger
     //é criado uma nova data dentro do construtor, utilizando como 
     // referencia a data passada no momento da instancia da classe, por que?
     // porque se o parametro passado na instancia da classe for uma variavel, 
@@ -10,7 +11,7 @@ class Negociacao {
     this._quantidade = quantidade;
     this._valor = valor;
     
-    Object.freeze(this)
+    Object.freeze(this)  //impede que os valores sejam alterados diretamente
   }
 
 
