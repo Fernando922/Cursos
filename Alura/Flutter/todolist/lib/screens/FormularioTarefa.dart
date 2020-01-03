@@ -25,34 +25,45 @@ class _FormularioTarefaState extends State<FormularioTarefa> {
             rotulo: Constants.rotuloCampoTarefa,
             dica: Constants.dicaCampoTarefa,
           ),
-          Text(
-            Constants.grauDeUrgencia,
-            textAlign: TextAlign.center,
-          ),
-          DropdownButton<String>(
-            value: dropdownValue,
-            icon: Icon(Icons.arrow_drop_down),
-            iconSize: 24,
-            elevation: 16,
-            style: TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  Constants.grauDeUrgencia,
+                  textAlign: TextAlign.center,
+                ),
+                DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: Icon(Icons.arrow_drop_down),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: <String>[
+                    Constants.normal,
+                    Constants.medio,
+                    Constants.urgente
+                  ].map<DropdownMenuItem<String>>(
+                    (String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    },
+                  ).toList(),
+                ),
+              ],
             ),
-            onChanged: (String newValue) {
-              setState(() {
-                dropdownValue = newValue;
-              });
-            },
-            items: <String>[Constants.normal, Constants.medio, Constants.urgente]
-                .map<DropdownMenuItem<String>>(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              },
-            ).toList(),
           ),
           RaisedButton(
             child: Text(Constants.textoBotaoConfirmar),
@@ -68,7 +79,7 @@ class _FormularioTarefaState extends State<FormularioTarefa> {
   void _criaTarefa(BuildContext context) {
     final String nomeTarefa = _controladorCampoTarefa.text;
     if (nomeTarefa != null) {
-      final tarefaCriada = Tarefa(nomeTarefa, dropdownValue);
+      final tarefaCriada = Tarefa(0, nomeTarefa, dropdownValue);
       Navigator.pop(context, tarefaCriada);
     }
   }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/screens/listaTarefas.dart';
 
-void main() => runApp(MyApp());
+import 'database/dao/tarefa_dao.dart';
+import 'models/Tarefa.dart';
+
+void main()  =>   runApp(MyApp());
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todolist/database/dao/tarefa_dao.dart';
 import 'package:todolist/models/Tarefa.dart';
 import 'package:todolist/utils/constants/Constants.dart';
 
@@ -16,17 +17,21 @@ class ListaTarefas extends StatefulWidget {
 
 //classe que representa o estado da classe de lista de tarefas
 class ListaTarefasState extends State<ListaTarefas> {
+
+  final TarefaDao _dao = TarefaDao();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(Constants.tituloAppBarLista),
       ),
-      body: ListView.builder(
+      body: FutureBuilder<List<Tarefa>>(
+        initialData: List(),
+        future:
         itemCount: widget._tarefas.length,
         itemBuilder: (context, indice) {
           final tarefa = widget._tarefas[indice];
-          return ItemTarefa(tarefa);
+          return _ItemTarefa(tarefa);
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -49,11 +54,10 @@ class ListaTarefasState extends State<ListaTarefas> {
   }
 }
 
-//sem estado, já que não sofrerá mudanças, este é o widget que o usuário vai enxergar!
-class ItemTarefa extends StatelessWidget {
+class _ItemTarefa extends StatelessWidget {
   final Tarefa _tarefa;
 
-  ItemTarefa(this._tarefa);
+  _ItemTarefa(this._tarefa);
 
   @override
   Widget build(BuildContext context) {
