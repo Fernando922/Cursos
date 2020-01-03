@@ -1,3 +1,4 @@
+import 'package:bytebankpersist/database/dao/contact_dao.dart';
 import 'package:bytebankpersist/models/Contact.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class ContactForm extends StatefulWidget {
 class _ContactFormState extends State<ContactForm> {
   final TextEditingController _controladorNome = TextEditingController();
   final TextEditingController _controladorConta = TextEditingController();
+  final ContactDao _dao = ContactDao();
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +48,8 @@ class _ContactFormState extends State<ContactForm> {
                     final String nome = _controladorNome.text;
                     final int accountNumber = int.tryParse(_controladorConta.text);
 
-                    final Contact newContact = new Contact(nome, accountNumber);
-                    Navigator.pop(context, newContact);
-
+                    final Contact newContact = new Contact(0, nome, accountNumber);
+                    _dao.save(newContact).then((id) => Navigator.pop(context));
                   },
                 ),
               ),

@@ -1,8 +1,9 @@
-import 'package:bytebankpersist/screens/contacts_list.dart';
 import 'package:bytebankpersist/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(ByteBankApp());
+void main() {
+  runApp(ByteBankApp());
+}
 
 class ByteBankApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -20,5 +21,7 @@ class ByteBankApp extends StatelessWidget {
     );
   }
 }
+
+
 
 
