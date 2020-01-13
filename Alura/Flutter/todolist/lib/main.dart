@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/screens/listaTarefas.dart';
 
-import 'database/dao/tarefa_dao.dart';
-import 'models/Tarefa.dart';
-
 void main()  =>   runApp(MyApp());
 
 

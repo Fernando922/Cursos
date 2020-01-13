@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todolist/components/LoadingWidget.dart';
 import 'package:todolist/database/dao/tarefa_dao.dart';
 import 'package:todolist/models/Tarefa.dart';
 import 'package:todolist/utils/constants/Constants.dart';
@@ -17,8 +18,8 @@ class ListaTarefas extends StatefulWidget {
 
 //classe que representa o estado da classe de lista de tarefas
 class ListaTarefasState extends State<ListaTarefas> {
-
   final TarefaDao _dao = TarefaDao();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,11 +28,28 @@ class ListaTarefasState extends State<ListaTarefas> {
       ),
       body: FutureBuilder<List<Tarefa>>(
         initialData: List(),
-        future:
-        itemCount: widget._tarefas.length,
-        itemBuilder: (context, indice) {
-          final tarefa = widget._tarefas[indice];
-          return _ItemTarefa(tarefa);
+        future: _dao.findAll(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return LoadingWidget();
+              break;
+            case ConnectionState.active:
+              break;
+            case ConnectionState.done:
+              final List<Tarefa> tarefas = snapshot.data;
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final Tarefa tarefa = tarefas[index];
+                  return _ItemTarefa(tarefa);
+                },
+                itemCount: tarefas.length,
+              );
+              break;
+          }
+          return Text('Unknown Error');
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -89,7 +107,7 @@ class _ItemTarefa extends StatelessWidget {
                   ),
                   FlatButton(
                     child: Text('Confirmar'),
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).pop();
                     },
                   )

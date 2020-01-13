@@ -8,7 +8,7 @@ class TarefaDao {
       'descricao TEXT, '
       'grauDeUrgencia TEXT)';
 
-  Future<int> save(Tarefa tarefa) async{
+  Future<int> save(Tarefa tarefa) async {
     //instancia o banco
     final Database db = await getDatabase();
     //cria um MAP com a tarefa recebida e insere no banco
@@ -16,16 +16,29 @@ class TarefaDao {
     return db.insert('tarefas', tarefaMap);
   }
 
-  List<Tarefa> _toList(List<Map<String, dynamic>> result){
-    final List<Tarefa> tarefas = List();
-    //todo terminar
-  }
-
-  Map<String, dynamic> _toMap(Tarefa tarefa){
+  Map<String, dynamic> _toMap(Tarefa tarefa) {
     final Map<String, dynamic> tarefaMap = Map();
     tarefaMap['descricao'] = tarefa.descricao;
     tarefaMap['grauDeUrgencia'] = tarefa.grauDeUrgencia;
     return tarefaMap;
   }
+
+  List<Tarefa> _toList(List<Map<String, dynamic>> result) {
+    final List<Tarefa> tarefas = List();
+    for (Map<String, dynamic> row in result) {
+      final Tarefa tarefa =
+      Tarefa(row['id'], row['descricao'], row['grauDeUrgencia']);
+      tarefas.add(tarefa);
+    }
+    return tarefas;
+  }
+
+  Future<List<Tarefa>> findAll() async {
+    final Database db = await getDatabase();
+    final List<Map<String, dynamic>> result = await db.query('tarefas');
+    List<Tarefa> tarefas = _toList(result);
+    return tarefas;
+  }
+
 
 }

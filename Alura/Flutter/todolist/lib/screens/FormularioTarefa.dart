@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/components/editor.dart';
+import 'package:todolist/database/dao/tarefa_dao.dart';
 import 'package:todolist/models/Tarefa.dart';
 import 'package:todolist/utils/constants/Constants.dart';
 
@@ -11,6 +12,7 @@ class FormularioTarefa extends StatefulWidget {
 class _FormularioTarefaState extends State<FormularioTarefa> {
   final TextEditingController _controladorCampoTarefa = TextEditingController();
   String dropdownValue = Constants.normal;
+  final TarefaDao _dao = TarefaDao();
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,7 @@ class _FormularioTarefaState extends State<FormularioTarefa> {
     final String nomeTarefa = _controladorCampoTarefa.text;
     if (nomeTarefa != null) {
       final tarefaCriada = Tarefa(0, nomeTarefa, dropdownValue);
-      Navigator.pop(context, tarefaCriada);
+      _dao.save(tarefaCriada).then((id) => Navigator.pop(context));
     }
   }
 }
