@@ -1,0 +1,28 @@
+
+// BINARIOS
+v e v => v
+v e f => f
+f e ? => f
+
+
+op1 e op2 e op3 e op4 => v    // todos devem ser verdadeiros para a resposta ser verdadeira
+
+
+
+v ou ? => v   //uma coisa ou outra, sempre vai ser verdadeiro
+f ou v => v
+f ou f => f
+
+
+'ou' exclusivo
+
+v  xor v => f
+v xor f => v
+f xor v => v
+f xor f => f
+
+// UNARIOS, operação em torno de um elemento
+
+
+!v => f
+!f => v
