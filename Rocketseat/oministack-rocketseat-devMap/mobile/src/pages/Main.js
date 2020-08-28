@@ -55,6 +55,19 @@ function Main({ navigation }) {
     setCurrenRegion(region);
   }
 
+  function setupWebSocket(){
+
+    disconnect()
+
+    const {latitude, longitude} = currentRegion
+
+    connect(
+      latitude,
+      longitude,
+      techs
+    )
+  }
+
   async function loadDevs() {
     const { latitude, longitude } = currentRegion;
 
@@ -72,18 +85,6 @@ function Main({ navigation }) {
   }
 
 
-  function setupWebSocket(){
-
-    disconnect()
-
-    const {latitude, longitude} = currentRegion
-
-    connect(
-      latitude,
-      longitude,
-      techs
-    )
-  }
 
   return (
     <>
